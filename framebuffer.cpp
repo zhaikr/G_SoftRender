@@ -33,7 +33,7 @@ void FrameBuffer::SetPixelColor(const int& x, const int& y, const Color& color)
 void FrameBuffer::ClearBuffer(const Color& color)
 {
     std::fill(_depth_buffer_.begin(), _depth_buffer_.end(), -1.f);
-    _color_buffer_.fill(QColor(color.r * 255.f, color.g * 255.f, color.b * 255.f, color.a * 255.f));
+    _color_buffer_.fill(QColor(color.r, color.g, color.b, color.a));
 }
 
 bool FrameBuffer::SaveImage(const QString& file_path)

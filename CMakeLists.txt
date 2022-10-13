@@ -34,6 +34,8 @@ set(PROJECT_SOURCES
         model.cpp
         mesh.h
         mesh.cpp
+        shader.cpp
+        shader.h
         )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

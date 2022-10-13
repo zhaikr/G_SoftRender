@@ -15,6 +15,7 @@ using Coord4D = glm::vec4;
 using Matrix4D = glm::mat4;
 
 
+
 struct Vertex
 {
     Coord4D world_position_;

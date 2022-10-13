@@ -65,7 +65,7 @@ void SoftRenderCore::ScanUpTriangle(const Triangle& tri)
         Vertex new_left = CalculateInterpolation(left, top, alpha);
         Vertex new_right = CalculateInterpolation(right, top, alpha);
         new_left.screen_position_.x = static_cast<int>(new_left.screen_position_.x);
-        new_right.screen_position_.x = static_cast<int>(new_right.screen_position_.x + 0.5);
+        new_right.screen_position_.x = static_cast<int>(new_right.screen_position_.x);
         new_left.screen_position_.y = new_right.screen_position_.y = now_y;
         ScanLine(new_left, new_right);
         --now_y;
@@ -91,7 +91,7 @@ void SoftRenderCore::ScanDownTriangle(const Triangle& tri)
         Vertex new_left = CalculateInterpolation(left, bottom, alpha);
         Vertex new_right = CalculateInterpolation(right, bottom, alpha);
         new_left.screen_position_.x = static_cast<int>(new_left.screen_position_.x);
-        new_right.screen_position_.x = static_cast<int>(new_right.screen_position_.x + 0.5);
+        new_right.screen_position_.x = static_cast<int>(new_right.screen_position_.x);
         new_left.screen_position_.y = new_right.screen_position_.y = now_y;
         ScanLine(new_left, new_right);
         --now_y;
