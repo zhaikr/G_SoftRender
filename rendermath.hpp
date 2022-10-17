@@ -1,4 +1,4 @@
-#ifndef RENDERMATH_H
+﻿#ifndef RENDERMATH_H
 #define RENDERMATH_H
 
 #include "basicdatastructure.hpp"
@@ -68,6 +68,13 @@ inline Matrix4D GetViewMatrix(Vector3D pos, Vector3D right, Vector3D up, Vector3
     return result;
 }
 
+//glm::lookAt(eye, center, up)
+//lookAt函数有三个参数，分别代表观察点的位置，要看向的中心点，以及摄像机的up向量
+inline Matrix4D GetViewMatrix(Vector3D position, Vector3D center)
+{
+    return glm::lookAt(position,center,{0.0f,1.0f,0.0f});
+}
+
 //透视投影 参数 fov(弧度) aspect near far
 //M = [   1/aspect*tan(fov/2),       0      ,         0      ,       0
 //               0  ,         1/tan(fov/2)  ,         0      ,       0
@@ -85,4 +92,11 @@ inline Matrix4D GetPerspectiveMatrix(const float & fovy, const float & aspect, c
     result[3][2] = (-2.0f*n*f) / (f - n);
     return result;
 }
+
+//glm::perspective 参数fov表示 field of view ，aspect 表示屏幕宽高比, z_near和z_far定义了frustum的近平面和远平面的距离
+Matrix4D Camera::GetProjectionMatrix(const float& fov, const float& aspect, const float& z_near, const float& z_far)
+{
+    return glm::perspective(glm::radians(fov), aspect, z_near, z_far);
+}
+
 #endif // RENDERMATH_H

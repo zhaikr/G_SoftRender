@@ -1,4 +1,4 @@
-#ifndef SOFTRENDERCORE_H
+﻿#ifndef SOFTRENDERCORE_H
 #define SOFTRENDERCORE_H
 
 #include "framebuffer.h"
@@ -12,6 +12,8 @@ public:
     //~SoftRenderCore();
     std::vector<Vertex> VBO_;
     std::vector<unsigned> EBO_;  //array of vertex indices
+
+    std::unique_ptr<Shader> shader;  //shader ptr
 
     void ClearBuffer(){framebuffer.ClearBuffer(clearcolor);}
     QImage& GetBuffer(){return framebuffer.GetImage();}
@@ -43,6 +45,7 @@ private:
     void ScanUpTriangle(const Triangle& tri);
     void ScanDownTriangle(const Triangle& tri);
 
+    void ProcessTriangle(const Triangle& tri);
     void RasterizationTriangle(const Triangle& tri);
 
 };

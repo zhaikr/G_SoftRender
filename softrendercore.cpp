@@ -1,7 +1,7 @@
-#include "softrendercore.h"
+﻿#include "softrendercore.h"
 #include <iostream>
 
-SoftRenderCore::SoftRenderCore(const int& w, const int& h) : _width_(w), _height_(h), framebuffer(_width_, _height_)
+SoftRenderCore::SoftRenderCore(const int& w, const int& h) :shader(nullptr), _width_(w), _height_(h), framebuffer(_width_, _height_)
 {
 
 }
@@ -110,6 +110,15 @@ void SoftRenderCore::ScanLine(const Vertex& left, const Vertex& right)
     }
 }
 
+void SoftRenderCore::ProcessTriangle(const Triangle &tri)
+{
+    for(int i = 0; i < 3; ++i)
+    {
+        //shader->VertexShader(tri[i]);
+    }
+    ScanLineTriangle(tri);
+}
+
 void SoftRenderCore::Render()
 {
     std::vector<Triangle> triangle_list;
@@ -130,6 +139,6 @@ void SoftRenderCore::Render()
 
     for (int i = 0; i < triangle_list.size(); i++)
     {
-        ScanLineTriangle(triangle_list[i]);
+        ProcessTriangle(triangle_list[i]);
     }
 }
