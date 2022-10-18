@@ -2,6 +2,7 @@
 #define RENDERMATH_H
 
 #include "basicdatastructure.hpp"
+#include "glm/gtc/matrix_transform.hpp"
 
 template<typename T>
 T CalculateInterpolation(const T& a, const T&b, const float& alpha)
@@ -94,7 +95,7 @@ inline Matrix4D GetPerspectiveMatrix(const float & fovy, const float & aspect, c
 }
 
 //glm::perspective 参数fov表示 field of view ，aspect 表示屏幕宽高比, z_near和z_far定义了frustum的近平面和远平面的距离
-Matrix4D Camera::GetProjectionMatrix(const float& fov, const float& aspect, const float& z_near, const float& z_far)
+inline Matrix4D GetProjectionMatrix(const float& fov, const float& aspect, const float& z_near, const float& z_far)
 {
     return glm::perspective(glm::radians(fov), aspect, z_near, z_far);
 }

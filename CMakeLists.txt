@@ -35,8 +35,10 @@ set(PROJECT_SOURCES
         mesh.h
         mesh.cpp
         shader.hpp
-        blinnphongshader.cpp
-        blinnphongshader.h
+        #blinnphongshader.cpp
+        #blinnphongshader.h
+        texture.cpp
+        texture.h
         )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

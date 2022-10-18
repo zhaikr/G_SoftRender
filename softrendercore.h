@@ -3,6 +3,8 @@
 
 #include "framebuffer.h"
 #include "rendermath.hpp"
+#include "texture.h"
+#include "shader.hpp"
 
 class SoftRenderCore
 {
@@ -12,9 +14,10 @@ public:
     //~SoftRenderCore();
     std::vector<Vertex> VBO_;
     std::vector<unsigned> EBO_;  //array of vertex indices
-
+    std::vector<Texture> textureList;
     std::unique_ptr<Shader> shader;  //shader ptr
 
+    Color clearcolor;  //background color
     void ClearBuffer(){framebuffer.ClearBuffer(clearcolor);}
     QImage& GetBuffer(){return framebuffer.GetImage();}
 
@@ -37,7 +40,7 @@ public:
 private:
     int _width_;
     int _height_;
-    Color clearcolor;
+
     FrameBuffer framebuffer;
     //Scan line Triangle function
     void ScanLineTriangle(const Triangle& tri);
