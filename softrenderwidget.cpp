@@ -21,7 +21,8 @@ SoftRenderWidget::~SoftRenderWidget()
 
 void SoftRenderWidget::InitRender()
 {
-    SoftRenderCore::Init(600, 600);
+    SoftRenderCore::Init(300, 300);
+    SoftRenderCore::GetInstance().shader = std::make_unique<Shader>();
 }
 
 void SoftRenderWidget::SetRenderColor(const Color& color)
@@ -41,9 +42,9 @@ void SoftRenderWidget::Render()
     SoftRenderCore::GetInstance().ClearBuffer();
     std::vector<Vertex> vertex_list;
     Vertex v1, v2, v3;
-    v1.screen_position_ = Coord2D(200, 0);
-    v2.screen_position_ = Coord2D(100, 0);
-    v3.screen_position_ = Coord2D(150, 150);
+    v1.screen_position_ = Coord2D(300, 0);
+    v2.screen_position_ = Coord2D(0, 0);
+    v3.screen_position_ = Coord2D(150, 300);
     v1.color_ = Color(1.f, 0.f, 0.f);
     v2.color_ = Color(0.f, 1.f, 0.f);
     v3.color_ = Color(0.f, 0.f, 1.f);

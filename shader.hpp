@@ -13,14 +13,15 @@ public:
     std::vector<Light> lightList;
     Material material;
     Coord4D eyePos;
-    virtual void VertexShader(Vertex &vertex) = 0;
-    virtual void FragmentShader(Fragment &fragment) = 0;
+    virtual void VertexShader(Vertex &vertex);
+    virtual void FragmentShader(Fragment &fragment);
 };
 
 inline void Shader::VertexShader(Vertex &vertex)
 {
     vertex.world_position_ = Coord3D(Model * Coord4D(vertex.world_position_, 1.f));
     vertex.ndc_space_position_ = Projection * View * Coord4D(vertex.world_position_, 1.f);
+
 }
 
 inline void Shader::FragmentShader(Fragment &fragment)

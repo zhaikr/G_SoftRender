@@ -48,8 +48,8 @@ private:
     void ScanUpTriangle(const Triangle& tri);
     void ScanDownTriangle(const Triangle& tri);
 
-    void ProcessTriangle(const Triangle& tri);
-    void RasterizationTriangle(const Triangle& tri);
+    void ProcessTriangle(Triangle& tri);
+    void RasterizationTriangle(Triangle& tri);
 
 };
 

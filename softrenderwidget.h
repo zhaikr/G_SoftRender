@@ -5,6 +5,7 @@
 #include <QPaintEvent>
 #include <QPainter>
 #include <softrendercore.h>
+#include "shader.hpp"
 #include "model.h"
 
 namespace Ui {

@@ -102,21 +102,39 @@ void SoftRenderCore::ScanDownTriangle(const Triangle& tri)
 void SoftRenderCore::ScanLine(const Vertex& left, const Vertex& right)
 {
     int length = right.screen_position_.x - left.screen_position_.x;
-    for (int i = 0; i <= length; ++i)
+    if (length == 0)
+    {
+        int x = static_cast<float>(right.screen_position_.x) ;
+        int y = static_cast<float>(right.screen_position_.y);
+        framebuffer.SetPixelColor(x, y, right.color_);
+    }
+
+    for (int i = 0; i < length; ++i)
     {
         float alpha = static_cast<float>(i) / length;
         Vertex temp_vertex = CalculateInterpolation(left, right, alpha);
-        framebuffer.SetPixelColor(temp_vertex.screen_position_.x, temp_vertex.screen_position_.y, temp_vertex.color_);
+        int x = static_cast<float>(left.screen_position_.x) + i;
+        int y = static_cast<float>(left.screen_position_.y);
+        framebuffer.SetPixelColor(x, y, temp_vertex.color_);
     }
 }
 
-void SoftRenderCore::ProcessTriangle(const Triangle &tri)
+void SoftRenderCore::RasterizationTriangle(Triangle &tri)
 {
-    for(int i = 0; i < 3; ++i)
+    for(auto& v : tri)
     {
-        //shader->VertexShader(tri[i]);
+        //shader->FragmentShader(v);
     }
     ScanLineTriangle(tri);
+}
+
+void SoftRenderCore::ProcessTriangle(Triangle &tri)
+{
+    for(auto& v : tri)
+    {
+        shader->VertexShader(v);
+    }
+    RasterizationTriangle(tri);
 }
 
 void SoftRenderCore::Render()
@@ -139,6 +157,7 @@ void SoftRenderCore::Render()
 
     for (int i = 0; i < triangle_list.size(); i++)
     {
+        //ScanLineTriangle(triangle_list[i]);
         ProcessTriangle(triangle_list[i]);
     }
 }
