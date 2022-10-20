@@ -3,12 +3,12 @@
 
 bool Texture::LoadFromImage(QString path)
 {
-    this->path = path;
+    this->path_ = path;
     if(texture.load(path))
     {
         //texture.mirror();
-        w = texture.width();
-        h = texture.height();
+        _width_ = texture.width();
+        _height_ = texture.height();
         return true;
     }
     return false;
@@ -16,9 +16,9 @@ bool Texture::LoadFromImage(QString path)
 
 Color Texture::Sample2D(Coord2D coord)
 {
-    int x = static_cast<int>(coord.x * w - 0.5f) % w;
-    int y = static_cast<int>(coord.y * h - 0.5f) % h;
-    x = x < 0 ? w + x : x;
-    y = y < 0 ? h + y : y;
+    int x = static_cast<int>(coord.x * _width_ - 0.5f) % _width_;
+    int y = static_cast<int>(coord.y * _height_ - 0.5f) % _height_;
+    x = x < 0 ? _width_ + x : x;
+    y = y < 0 ? _height_ + y : y;
     return Color(texture.pixelColor(x, y).red() / 255.f, texture.pixelColor(x, y).green() / 255.f, texture.pixelColor(x, y).blue() / 255.f);
 }

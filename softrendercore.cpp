@@ -3,8 +3,34 @@
 
 SoftRenderCore::SoftRenderCore(const int& w, const int& h) :shader(nullptr), _width_(w), _height_(h), framebuffer(_width_, _height_)
 {
-
+    {// set view planes
+      // near
+      viewPlanes_[0] = { 0, 0, 1.f, 1.f };
+      // far
+      viewPlanes_[1] = { 0, 0, -1.f, 1.f };
+      // left
+      viewPlanes_[2] = { 1.f, 0, 0, 1.f };
+      // right
+      viewPlanes_[3] = { -1.f, 0, 0, 1.f };
+      // top
+      viewPlanes_[4] = { 0, 1.f, 0, 1.f };
+      // bottom
+      viewPlanes_[5] = { 0, -1.f, 0, 1.f };
+    }
+    {// set screen border
+        // left
+      screenLines_[0] = { 1.f, 0, 0 };
+      // right
+      screenLines_[1] = { -1.f, 0, (float)w };
+      // bottom
+      screenLines_[2] = { 0, 1.f, 0 };
+      // top
+      screenLines_[3] = { 0, -1.f, (float)h };
+    }
 }
+
+/********************************************************************************/
+// Scanline Triangle Algorithm
 
 void SoftRenderCore::ScanLineTriangle(const Triangle& tri)
 {
@@ -119,6 +145,31 @@ void SoftRenderCore::ScanLine(const Vertex& left, const Vertex& right)
     }
 }
 
+/********************************************************************************/
+// struct EdgeEquation implementation
+
+CoordI4D SoftRenderCore::GetBoundingBox(const Triangle& tri)
+{
+  int xMin = _width_ - 1;
+  int yMin = _height_ - 1;
+  int xMax = 0;
+  int yMax = 0;
+  for (auto& v : tri)
+  {
+    xMin = std::min(xMin, static_cast<int>(v.screen_position_.x));
+    yMin = std::min(yMin, static_cast<int>(v.screen_position_.y));
+    xMax = std::max(xMax, static_cast<int>(v.screen_position_.x));
+    yMax = std::max(yMax, static_cast<int>(v.screen_position_.y));
+  }
+  return {
+      xMin > 0 ? xMin : 0,
+      yMin > 0 ? yMin : 0,
+      xMax < _width_ - 1 ? xMax : _width_ - 1,
+      yMax < _height_ - 1 ? yMax : _height_ - 1 };
+}
+
+
+
 void SoftRenderCore::RasterizationTriangle(Triangle &tri)
 {
     for(auto& v : tri)
@@ -132,10 +183,14 @@ void SoftRenderCore::ProcessTriangle(Triangle &tri)
 {
     for(auto& v : tri)
     {
-        shader->VertexShader(v);
+        //shader->VertexShader(v);
     }
+    ConvertToScreen(tri, _width_, _height_);
     RasterizationTriangle(tri);
 }
+
+/********************************************************************************/
+// main render function
 
 void SoftRenderCore::Render()
 {

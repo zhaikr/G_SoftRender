@@ -40,13 +40,19 @@ public:
 private:
     int _width_;
     int _height_;
+    std::array<BorderPlane, 6> viewPlanes_;
+    std::array<BorderLine, 4> screenLines_;
 
     FrameBuffer framebuffer;
+
     //Scan line Triangle function
     void ScanLineTriangle(const Triangle& tri);
     void ScanLine(const Vertex& left, const Vertex& right);
     void ScanUpTriangle(const Triangle& tri);
     void ScanDownTriangle(const Triangle& tri);
+
+    //Edge-Function(half-space) algorithm 
+    CoordI4D GetBoundingBox(const Triangle& tri);
 
     void ProcessTriangle(Triangle& tri);
     void RasterizationTriangle(Triangle& tri);

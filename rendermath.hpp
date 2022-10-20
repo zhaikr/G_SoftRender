@@ -18,7 +18,7 @@ inline Vertex CalculateInterpolation(const Vertex& a, const Vertex& b, float& al
     temp_vertex.texture_position_ = CalculateInterpolation(a.texture_position_, b.texture_position_, alpha);
     temp_vertex.normal_ = CalculateInterpolation(a.normal_, b.normal_, alpha);
     temp_vertex.color_ = CalculateInterpolation(a.color_, b.color_, alpha);
-    temp_vertex.screen_depth = CalculateInterpolation(a.screen_depth, b.screen_depth, alpha);
+    temp_vertex.screen_depth_ = CalculateInterpolation(a.screen_depth_, b.screen_depth_, alpha);
     return temp_vertex;
 }
 // glm 的矩阵是行矩阵，而一般我们用的都是列矩阵，所以存放的时候要转置
@@ -100,4 +100,26 @@ inline Matrix4D GetProjectionMatrix(const float& fov, const float& aspect, const
     return glm::perspective(glm::radians(fov), aspect, z_near, z_far);
 }
 
+
+//Convert NDC To Screen
+inline void ConvertToScreen(Triangle& tri, const int& w, const int& h)
+{
+    for (auto& v : tri)
+    {
+        v.screen_position_.x = static_cast<int>(0.5f * w * (v.ndc_space_position_.x + 1.0f) + 0.5f);
+        v.screen_position_.y = static_cast<int>(0.5f * h * (v.ndc_space_position_.y + 1.0f) + 0.5f);
+        v.screen_depth_ = v.ndc_space_position_.z;
+    }
+}
+
+//Coordinate x, y, z dividing w, 
+inline void ExecutePerspectiveDivision(Triangle& tri)
+{
+  for (auto& v : tri)
+  {
+    v.ndc_space_position_.x /= v.clip_space_positon_.w;
+    v.ndc_space_position_.y /= v.clip_space_positon_.w;
+    v.ndc_space_position_.z /= v.clip_space_positon_.w;
+  }
+}
 #endif // RENDERMATH_H

@@ -42,9 +42,12 @@ void SoftRenderWidget::Render()
     SoftRenderCore::GetInstance().ClearBuffer();
     std::vector<Vertex> vertex_list;
     Vertex v1, v2, v3;
-    v1.screen_position_ = Coord2D(300, 0);
-    v2.screen_position_ = Coord2D(0, 0);
-    v3.screen_position_ = Coord2D(150, 300);
+    //v1.screen_position_ = Coord2D(300, 0);
+    //v2.screen_position_ = Coord2D(0, 0);
+    //v3.screen_position_ = Coord2D(150, 300);
+    v1.ndc_space_position_ = Coord4D(-0.5f, -0.5f, 0.f, 1.f);
+    v2.ndc_space_position_ = Coord4D(0.5f, -0.5f, 0.f, 1.f);
+    v3.ndc_space_position_ = Coord4D(0.f, 0.5f, 0.f, 1.f);
     v1.color_ = Color(1.f, 0.f, 0.f);
     v2.color_ = Color(0.f, 1.f, 0.f);
     v3.color_ = Color(0.f, 0.f, 1.f);
