@@ -1,4 +1,4 @@
-﻿#ifndef RENDERMATH_H
+#ifndef RENDERMATH_H
 #define RENDERMATH_H
 
 #include "basicdatastructure.hpp"
@@ -122,4 +122,6 @@ inline void ExecutePerspectiveDivision(Triangle& tri)
     v.ndc_space_position_.z /= v.clip_space_positon_.w;
   }
 }
+
+
 #endif // RENDERMATH_H

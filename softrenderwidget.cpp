@@ -1,4 +1,4 @@
-﻿#include "softrenderwidget.h"
+#include "softrenderwidget.h"
 #include "ui_softrenderwidget.h"
 
 

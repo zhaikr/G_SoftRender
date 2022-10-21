@@ -1,4 +1,4 @@
-﻿#ifndef SOFTRENDERWIDGET_H
+#ifndef SOFTRENDERWIDGET_H
 #define SOFTRENDERWIDGET_H
 
 #include <QWidget>

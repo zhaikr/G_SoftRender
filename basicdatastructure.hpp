@@ -1,4 +1,4 @@
-﻿#ifndef BASICDATASTRUCTURE_HPP
+#ifndef BASICDATASTRUCTURE_HPP
 #define BASICDATASTRUCTURE_HPP
 
 #include <array>
@@ -7,10 +7,11 @@
 
 using Color = glm::vec3;
 using Vector3D = glm::vec3;
-using VectotI3D = glm::ivec3;
+using VectorI3D = glm::ivec3;
 using Vector4D = glm::vec4;
 using VectorI4D = glm::ivec4;
 using Coord2D = glm::vec2;
+using CoordI2D = glm::ivec2;
 using Coord3D = glm::vec3;
 using CoordI3D = glm::ivec3;
 using Coord4D = glm::vec4;

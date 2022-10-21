@@ -1,4 +1,4 @@
-﻿// Copyright 2022 JackRay
+// Copyright 2022 JackRay
 // Author: JackRay
 // Time: 2022-08-17
 // Licence: LGPL

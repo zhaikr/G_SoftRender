@@ -1,4 +1,4 @@
-﻿#include "Texture.h"
+#include "Texture.h"
 #include <QDebug>
 
 bool Texture::LoadFromImage(QString path)

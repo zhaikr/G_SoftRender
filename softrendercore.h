@@ -1,4 +1,4 @@
-﻿#ifndef SOFTRENDERCORE_H
+#ifndef SOFTRENDERCORE_H
 #define SOFTRENDERCORE_H
 
 #include "framebuffer.h"
@@ -6,10 +6,24 @@
 #include "texture.h"
 #include "shader.hpp"
 
+//Edge-Function(half-space) algorithm 
+struct EdgeEquation
+{
+  VectorI3D I, J, K;
+  bool top_left_flag[3];
+  int two_area;
+  float delta;
+  EdgeEquation(const Triangle& tri);
+  VectorI3D GetResult(const int& x, const int& y);
+  void UpX(VectorI3D& res);
+  void UpY(VectorI3D& res);
+  Vector3D GetBarycentric(VectorI3D& val);
+};
+
 class SoftRenderCore
 {
 public:
-    SoftRenderCore();
+    SoftRenderCore() = default;
     SoftRenderCore(const int& w, const int& h);
     //~SoftRenderCore();
     std::vector<Vertex> VBO_;
@@ -51,8 +65,9 @@ private:
     void ScanUpTriangle(const Triangle& tri);
     void ScanDownTriangle(const Triangle& tri);
 
-    //Edge-Function(half-space) algorithm 
+    //get triangle minimial box 
     CoordI4D GetBoundingBox(const Triangle& tri);
+
 
     void ProcessTriangle(Triangle& tri);
     void RasterizationTriangle(Triangle& tri);
