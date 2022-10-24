@@ -5,9 +5,16 @@
 #include "glm/gtc/matrix_transform.hpp"
 
 template<typename T>
-T CalculateInterpolation(const T& a, const T&b, const float& alpha)
+static inline T CalculateInterpolation(const T& a, const T&b, const float& alpha)
 {
     return (1-alpha)*a + alpha*b;
+}
+
+//calculate barycentric interpolation 
+template<typename T>
+static inline T CalculateInterpolation(T a, T b, T c, Vector3D& barycentric)
+{
+  return a * barycentric.x + b * barycentric.y + c * barycentric.z;
 }
 
 inline Vertex CalculateInterpolation(const Vertex& a, const Vertex& b, float& alpha)

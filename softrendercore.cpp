@@ -15,7 +15,6 @@ static inline bool JudgeInsideTriangle(EdgeEquation& tri_edge, VectorI3D res)
   if (res.x == 0) flag &= tri_edge.top_left_flag[0];
   if (res.y == 0) flag &= tri_edge.top_left_flag[1];
   if (res.z == 0) flag &= tri_edge.top_left_flag[2];
-  //    return flag && res.x >= 0 && res.y >=0 && res.z >= 0;
   return flag && ((res.x >= 0 && res.y >= 0 && res.z >= 0) || (res.x <= 0 && res.y <= 0 && res.z <= 0));
 }
 
