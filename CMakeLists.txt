@@ -11,11 +11,16 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
+
 #add 3rd-lib
 include_directories(./lib)
+set(assimp_DIR lib/assimp_x64-windows/share/assimp)
+
+
 set(PROJECT_SOURCES
         basicdatastructure.hpp
         rendermath.hpp
@@ -60,6 +65,15 @@ else()
         )
     endif()
 endif()
+
+#find_library(
+#    ASSIMP
+#    NAME assimp-vc143-mt
+#)
+
+find_package(assimp CONFIG REQUIRED)
+
+target_link_libraries(softrender PRIVATE assimp::assimp)
 
 target_link_libraries(softrender PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 
