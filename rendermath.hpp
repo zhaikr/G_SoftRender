@@ -2,11 +2,19 @@
 #define RENDERMATH_H
 
 #include "basicdatastructure.hpp"
+#include "glm/gtc/matrix_transform.hpp"
 
 template<typename T>
-T CalculateInterpolation(const T& a, const T&b, const float& alpha)
+static inline T CalculateInterpolation(const T& a, const T&b, const float& alpha)
 {
     return (1-alpha)*a + alpha*b;
+}
+
+//calculate barycentric interpolation 
+template<typename T>
+static inline T CalculateInterpolation(T a, T b, T c, Vector3D& barycentric)
+{
+  return a * barycentric.x + b * barycentric.y + c * barycentric.z;
 }
 
 inline Vertex CalculateInterpolation(const Vertex& a, const Vertex& b, float& alpha)
@@ -17,7 +25,7 @@ inline Vertex CalculateInterpolation(const Vertex& a, const Vertex& b, float& al
     temp_vertex.texture_position_ = CalculateInterpolation(a.texture_position_, b.texture_position_, alpha);
     temp_vertex.normal_ = CalculateInterpolation(a.normal_, b.normal_, alpha);
     temp_vertex.color_ = CalculateInterpolation(a.color_, b.color_, alpha);
-    temp_vertex.screen_depth = CalculateInterpolation(a.screen_depth, b.screen_depth, alpha);
+    temp_vertex.screen_depth_ = CalculateInterpolation(a.screen_depth_, b.screen_depth_, alpha);
     return temp_vertex;
 }
 // glm 的矩阵是行矩阵，而一般我们用的都是列矩阵，所以存放的时候要转置
@@ -68,6 +76,13 @@ inline Matrix4D GetViewMatrix(Vector3D pos, Vector3D right, Vector3D up, Vector3
     return result;
 }
 
+//glm::lookAt(eye, center, up)
+//lookAt函数有三个参数，分别代表观察点的位置，要看向的中心点，以及摄像机的up向量
+inline Matrix4D GetViewMatrix(Vector3D position, Vector3D center)
+{
+    return glm::lookAt(position,center,{0.0f,1.0f,0.0f});
+}
+
 //透视投影 参数 fov(弧度) aspect near far
 //M = [   1/aspect*tan(fov/2),       0      ,         0      ,       0
 //               0  ,         1/tan(fov/2)  ,         0      ,       0
@@ -85,4 +100,35 @@ inline Matrix4D GetPerspectiveMatrix(const float & fovy, const float & aspect, c
     result[3][2] = (-2.0f*n*f) / (f - n);
     return result;
 }
+
+//glm::perspective 参数fov表示 field of view ，aspect 表示屏幕宽高比, z_near和z_far定义了frustum的近平面和远平面的距离
+inline Matrix4D GetProjectionMatrix(const float& fov, const float& aspect, const float& z_near, const float& z_far)
+{
+    return glm::perspective(glm::radians(fov), aspect, z_near, z_far);
+}
+
+
+//Convert NDC To Screen
+inline void ConvertToScreen(Triangle& tri, const int& w, const int& h)
+{
+    for (auto& v : tri)
+    {
+        v.screen_position_.x = static_cast<int>(0.5f * w * (v.ndc_space_position_.x + 1.0f) + 0.5f);
+        v.screen_position_.y = static_cast<int>(0.5f * h * (v.ndc_space_position_.y + 1.0f) + 0.5f);
+        v.screen_depth_ = v.ndc_space_position_.z;
+    }
+}
+
+//Coordinate x, y, z dividing w, 
+inline void ExecutePerspectiveDivision(Triangle& tri)
+{
+  for (auto& v : tri)
+  {
+    v.ndc_space_position_.x /= v.clip_space_positon_.w;
+    v.ndc_space_position_.y /= v.clip_space_positon_.w;
+    v.ndc_space_position_.z /= v.clip_space_positon_.w;
+  }
+}
+
+
 #endif // RENDERMATH_H

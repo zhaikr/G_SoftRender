@@ -5,6 +5,7 @@
 #include <QPaintEvent>
 #include <QPainter>
 #include <softrendercore.h>
+#include "shader.hpp"
 #include "model.h"
 
 namespace Ui {
@@ -18,6 +19,7 @@ class SoftRenderWidget : public QWidget
 public:
     explicit SoftRenderWidget(QWidget *parent = nullptr);
     ~SoftRenderWidget();
+    void SetRenderColor(const Color& color);  //set background color
     void InitRender();
 
 protected:

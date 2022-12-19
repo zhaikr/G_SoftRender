@@ -10,7 +10,8 @@ public:
     Mesh() = default;
     ~Mesh() = default;
     Mesh(const Mesh& mesh)
-      :VBO_(mesh.VBO_), EBO_(mesh.EBO_){};
+      :VBO_(mesh.VBO_), EBO_(mesh.EBO_){}
+
     Mesh& operator=(const Mesh& mesh);
     Mesh& operator+=(const Mesh& mesh);
 

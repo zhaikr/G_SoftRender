@@ -21,7 +21,13 @@ SoftRenderWidget::~SoftRenderWidget()
 
 void SoftRenderWidget::InitRender()
 {
-    SoftRenderCore::Init(600, 600);
+    SoftRenderCore::Init(300, 300);
+    SoftRenderCore::GetInstance().shader = std::make_unique<Shader>();
+}
+
+void SoftRenderWidget::SetRenderColor(const Color& color)
+{
+    SoftRenderCore::GetInstance().clearcolor = color;
 }
 
 void SoftRenderWidget::paintEvent(QPaintEvent* event)
@@ -32,15 +38,19 @@ void SoftRenderWidget::paintEvent(QPaintEvent* event)
 
 void SoftRenderWidget::Render()
 {
+    SetRenderColor({0.98f, 0.98f, 0.98f});
     SoftRenderCore::GetInstance().ClearBuffer();
     std::vector<Vertex> vertex_list;
     Vertex v1, v2, v3;
-    v1.screen_position_ = Coord2D(200, 0);
-    v2.screen_position_ = Coord2D(100, 0);
-    v3.screen_position_ = Coord2D(150, 150);
-    v1.color_ = Color(255.f, 0.f, 0.f, 255.f);
-    v2.color_ = Color(0.f, 255.f, 0.f, 255.f);
-    v3.color_ = Color(0.f, 0.f, 255.f, 255.f);
+    //v1.screen_position_ = Coord2D(300, 0);
+    //v2.screen_position_ = Coord2D(0, 0);
+    //v3.screen_position_ = Coord2D(150, 300);
+    v1.ndc_space_position_ = Coord4D(-0.5f, -0.5f, 0.f, 1.f);
+    v2.ndc_space_position_ = Coord4D(0.5f, -0.5f, 0.f, 1.f);
+    v3.ndc_space_position_ = Coord4D(0.f, 0.5f, 0.f, 1.f);
+    v1.color_ = Color(1.f, 0.f, 0.f);
+    v2.color_ = Color(0.f, 1.f, 0.f);
+    v3.color_ = Color(0.f, 0.f, 1.f);
     vertex_list = {v1, v2, v3};
     model->ProcessNode(vertex_list);
     model->DrawModel();
